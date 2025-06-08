@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+    <div style="background-color: white; padding: 30px; border-radius: 30px; width: 300px; margin: auto; text-align: center;">
+        <div style="background-color: lightgray; border-radius: 50%; width: 80px; height: 80px; margin: auto;">
+            <p style="line-height: 80px;">Logo</p>
+        </div>
+        <h2>Login</h2>
+        {% if erro %}
+            <p style="color: red;">{{ erro }}</p>
+        {% endif %}
+        <form method="POST">
+            <label>E-mail:</label><br>
+            <input type="email" name="email" required><br><br>
+
+            <label>Senha:</label><br>
+            <input type="password" name="senha" required><br><br>
+
+            <p>Não tem uma conta ainda? <a href="{{ url_for('usuario.cadastro') }}">Cadastre-se aqui</a></p>
+
+            <button type="submit" style="background-color: blue; color: white; padding: 10px 20px; border: none; border-radius: 10px;">Entrar</button>
+        </form>
+    </div>
+</body>
+</html>

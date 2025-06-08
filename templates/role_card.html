@@ -1,0 +1,28 @@
+<div style="background-color: white; border-radius: 20px; padding: 20px; margin-bottom: 20px;">
+    <div>
+        <h3>{{ r.titulo }}</h3>
+        <p>{{ r.descricao }}</p>
+        <p><strong>Criador:</strong> {{ r.criador }} | <strong>Pessoas confirmadas:</strong> {{ r.participantes|length }}</p>
+        <p><strong>{{ r.data }}</strong> - {{ r.hora }}</p>
+        {% if session['email'] not in r.participantes %}
+            <form method="POST" action="{{ url_for('role.confirmar', titulo=r.titulo) }}">
+                <button style="background-color: green; color: white;">Tô dentro! ✅</button>
+            </form>
+        {% else %}
+            <button style="background-color: gray; color: white;" disabled>Tô dentro! ✅</button>
+        {% endif %}
+    </div>
+
+    <br>
+
+    <div>
+    {% if session['usuario'] == r.criador %}
+        <a href="{{ url_for('role.editar_role', titulo=r.titulo) }}">
+            <button style="background-color: orange; color: white;">Editar ✏️</button>
+        </a>
+        <form method="POST" action="{{ url_for('role.apagar_role', titulo=r.titulo) }}" style="display:inline;" onsubmit="return confirmarExclusao();">
+            <button style="background-color: red; color: white;">Apagar 🗑️</button>
+        </form>
+    {% endif %}
+    </div>
+</div>

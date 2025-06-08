@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <div style="background-color: white; padding: 30px; border-radius: 30px; width: 400px; margin: auto; text-align: center;">
+        {% if editar %}
+        <h2>Editar Role</h2>
+        {% else %}
+        <h2>Criar Role</h2>
+        {% endif %}
+        <form method="POST">
+            <label>Título:</label><br>
+            <input type="text" name="titulo" value="{{ role.titulo if editar else '' }}" required><br><br>
+
+            <label>Descrição:</label><br>
+            <textarea name="descricao" rows="4" cols="30" required>{{ role.descricao if editar else '' }}</textarea><br><br>
+
+            <label>Data:</label><br>
+            <input type="date" name="data" value="{{ role.data if editar else '' }}" required><br><br>
+
+            <label>Horário:</label><br>
+            <input type="time" name="hora" value="{{ role.hora if editar else '' }}" required><br><br>
+
+            <a href="{{ url_for('role.home') }}"><button type="button">Voltar para Home</button></a>
+            <button type="submit" style="background-color: blue; color: white;">Salvar Role</button>
+        </form>
+    </div>
+</body>
+</html>
