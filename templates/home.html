@@ -2,39 +2,138 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ToDentro - Home</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .welcome-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .search-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .search-input {
+            border-radius: 50px;
+            padding: 10px 20px;
+            border: 1px solid #ced4da;
+        }
+        
+        .filter-btn {
+            border-radius: 50px;
+            margin: 0 5px;
+            padding: 8px 15px;
+            font-weight: 500;
+        }
+        
+        .action-btn {
+            border-radius: 50px;
+            padding: 8px 20px;
+            margin-right: 10px;
+            font-weight: 500;
+        }
+        
+        .create-btn {
+            background-color: #28a745;
+            border: none;
+        }
+        
+        .logout-btn {
+            background-color: #dc3545;
+            border: none;
+        }
+        
+        .roles-container {
+            margin-top: 30px;
+        }
+        
+        .role-card {
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .role-card:hover {
+            transform: translateY(-3px);
+        }
+    </style>
 </head>
 <body>
-    <div style="padding: 20px;">
-        <p>Olá {{ usuario }}!</p>
-        <form method="GET" action="{{ url_for('role.home') }}">
-            <input type="text" id="busca" placeholder="Buscar Role...">
-            <button type="submit">🔍</button>
-            <a href="{{ url_for('role.home') }}?filtro=todos"><button type="button">Todos os Roles</button></a>
-            <a href="{{ url_for('role.home') }}?filtro=meus"><button type="button">Seus Roles</button></a>
-        </form>
-        <br>
-        <a href="{{ url_for('role.criar_role') }}"><button>+ Criar Role</button></a>
-        <a href="{{ url_for('usuario.logout') }}"><button style="background-color: red; color: white;">Sair da conta</button></a>
-
+    <div class="container">
+        <!-- Seção de Boas-Vindas -->
+        <div class="welcome-section">
+            <h4>Olá <strong>{{ usuario }}</strong>!</h4>
+            <p class="text-muted">Confira os roles disponíveis ou crie o seu</p>
+        </div>
+        
+        <!-- Seção de Busca e Filtros -->
+        <div class="search-section">
+            <form method="GET" action="{{ url_for('role.home') }}" class="row g-3 align-items-center">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <input type="text" id="busca" class="form-control search-input" placeholder="Buscar Role...">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex">
+                        <a href="{{ url_for('role.home') }}?filtro=todos" class="btn btn-outline-primary filter-btn">
+                            <i class="fas fa-list"></i> Todos
+                        </a>
+                        <a href="{{ url_for('role.home') }}?filtro=meus" class="btn btn-outline-secondary filter-btn">
+                            <i class="fas fa-user"></i> Seus Roles
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Seção de Ações -->
+        <div class="d-flex mb-4">
+            <a href="{{ url_for('role.criar_role') }}" class="btn btn-success action-btn create-btn">
+                <i class="fas fa-plus"></i> Criar Role
+            </a>
+            <a href="{{ url_for('usuario.logout') }}" class="btn btn-danger action-btn logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Sair
+            </a>
+        </div>
+        
         <hr>
-        {% for r in roles %}
-            <div class="role-card" data-titulo="{{ r.titulo | lower }}">
-                {% include 'role_card.html' %}
-            </div>
-        {% endfor %}
+        
+        <!-- Lista de Roles -->
+        <div class="roles-container">
+            {% for r in roles %}
+                <div class="role-card" data-titulo="{{ r.titulo | lower }}">
+                    {% include 'role_card.html' %}
+                </div>
+            {% endfor %}
+        </div>
     </div>
 
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script>
     function confirmarExclusao() {
         return confirm("Tem certeza que deseja apagar este role?");
     }
-    </script>
-
-
-</body>
-
-<script>
+    
     const input = document.getElementById('busca');
     input.addEventListener('input', function () {
         const filtro = input.value.toLowerCase();
@@ -45,6 +144,6 @@
             card.style.display = titulo.includes(filtro) ? 'block' : 'none';
         });
     });
-</script>
-
+    </script>
+</body>
 </html>
