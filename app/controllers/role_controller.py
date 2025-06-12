@@ -1,9 +1,18 @@
-from flask import Blueprint, render_template, request, redirect, session, url_for
+from flask import (
+    Blueprint,
+    render_template,
+    request,
+    redirect,
+    session,
+    url_for
+)
 from app.entities.role import Role
 from app.interface_adapters.role_repository import RoleRepository
 
+
 role_bp = Blueprint('role', __name__)
 repo = RoleRepository()
+
 
 @role_bp.route('/home', methods=['GET'])
 def home():
@@ -13,11 +22,23 @@ def home():
     filtro = request.args.get('filtro', 'todos')
     email_usuario = session['email']
     if filtro == 'meus':
-        roles = [r for r in roles if r.criador == session['usuario'] or email_usuario in r.participantes]
+        roles = [
+            r for r in roles
+            if r.criador == session['usuario']
+            or email_usuario in r.participantes
+        ]
     busca = request.args.get('busca', '').lower()
     if busca:
-        roles = [r for r in roles if busca in r.titulo.lower()]
-    return render_template('home.html', usuario=session['usuario'], roles=roles)
+        roles = [
+            r for r in roles
+            if busca in r.titulo.lower()
+        ]
+    return render_template(
+        'home.html',
+        usuario=session['usuario'],
+        roles=roles
+    )
+
 
 @role_bp.route('/criar-role', methods=['GET', 'POST'])
 def criar_role():
@@ -33,6 +54,7 @@ def criar_role():
         return redirect(url_for('role.home'))
     return render_template('criar_role.html')
 
+
 @role_bp.route('/confirmar/<titulo>', methods=['POST'])
 def confirmar(titulo):
     if 'usuario' not in session:
@@ -46,6 +68,7 @@ def confirmar(titulo):
     repo.salvar_todos(roles)
     return redirect(url_for('role.home'))
 
+
 @role_bp.route('/editar-role/<titulo>', methods=['GET', 'POST'])
 def editar_role(titulo):
     if 'usuario' not in session:
@@ -53,7 +76,7 @@ def editar_role(titulo):
 
     roles = repo.listar()
     role = next((r for r in roles if r.titulo == titulo), None)
-    
+
     if not role or role.criador != session['usuario']:
         return redirect(url_for('role.home'))
 
@@ -65,7 +88,12 @@ def editar_role(titulo):
         repo.salvar_todos(roles)
         return redirect(url_for('role.home'))
 
-    return render_template('criar_role.html', editar=True, role=role)
+    return render_template(
+        'criar_role.html',
+        editar=True,
+        role=role
+    )
+
 
 @role_bp.route('/apagar-role/<titulo>', methods=['POST'])
 def apagar_role(titulo):
@@ -73,7 +101,13 @@ def apagar_role(titulo):
         return redirect(url_for('usuario.login'))
 
     roles = repo.listar()
-    novas = [r for r in roles if not (r.titulo == titulo and r.criador == session['usuario'])]
+    novas = [
+        r for r in roles
+        if not (
+            r.titulo == titulo and
+            r.criador == session['usuario']
+        )
+    ]
     repo.salvar_todos(novas)
 
     return redirect(url_for('role.home'))

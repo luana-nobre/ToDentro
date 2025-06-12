@@ -1,5 +1,13 @@
 class Role:
-    def __init__(self, titulo, descricao, data, hora, criador, participantes=None):
+    def __init__(
+            self,
+            titulo,
+            descricao,
+            data,
+            hora,
+            criador,
+            participantes=None
+            ):
         self.titulo = titulo
         self.descricao = descricao
         self.data = data
@@ -9,7 +17,10 @@ class Role:
 
     def to_line(self):
         participantes_str = ",".join(self.participantes)
-        return f"{self.titulo};{self.descricao};{self.data};{self.hora};{self.criador};{participantes_str}\n"
+        return (
+            f"{self.titulo};{self.descricao};{self.data};"
+            f"{self.hora};{self.criador};{participantes_str}\n"
+        )
 
     @staticmethod
     def from_line(line):

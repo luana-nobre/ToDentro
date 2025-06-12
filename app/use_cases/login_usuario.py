@@ -1,5 +1,6 @@
 from app.interface_adapters.usuario_repository import UsuarioRepository
 
+
 class LoginUsuario:
     def __init__(self):
         self.repo = UsuarioRepository()

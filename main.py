@@ -4,6 +4,7 @@ from app.controllers.usuario_controller import usuario_bp
 from app.controllers.role_controller import role_bp
 import os
 
+
 app = Flask(__name__)
 app.secret_key = 'segredo'
 

@@ -1,5 +1,6 @@
 from app.entities.role import Role
 
+
 class RoleRepository:
     ARQUIVO = 'role.txt'
 

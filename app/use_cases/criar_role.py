@@ -1,6 +1,7 @@
 from app.entities.role import Role
 from app.interface_adapters.role_repository import RoleRepository
 
+
 class CriarRole:
     def __init__(self):
         self.repo = RoleRepository()

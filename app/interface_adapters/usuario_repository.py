@@ -1,5 +1,6 @@
 from app.entities.usuario import Usuario
 
+
 class UsuarioRepository:
     ARQUIVO = 'usuario.txt'
 
