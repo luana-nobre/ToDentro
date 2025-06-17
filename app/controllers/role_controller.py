@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, session, url_for
-from app.entities.role import Role
-from app.interface_adapters.role_repository import RoleRepository
+from domain.role import RoleTeste
+from infra.repositories.role_repository import RoleRepository
 
 role_bp = Blueprint('role', __name__)
 repo = RoleRepository()
@@ -28,7 +28,7 @@ def criar_role():
         descricao = request.form['descricao']
         data = request.form['data']
         hora = request.form['hora']
-        novo = Role(titulo, descricao, data, hora, session['usuario'])
+        novo = RoleTeste(titulo, descricao, data, hora, session['usuario'])
         repo.salvar(novo)
         return redirect(url_for('role.home'))
     return render_template('criar_role.html')

@@ -1,4 +1,4 @@
-from app.interface_adapters.usuario_repository import UsuarioRepository
+from infra.repositories.usuario_repository import UsuarioRepository
 
 class LoginUsuario:
     def __init__(self):

@@ -1,5 +1,5 @@
-from app.entities.role import Role
-from app.interface_adapters.role_repository import RoleRepository
+from domain.role import Role
+from infra.repositories.role_repository import RoleRepository
 
 class CriarRole:
     def __init__(self):

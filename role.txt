@@ -1,4 +1,0 @@
-role teste;bla bla bla;2025-06-08;22:00;luana;walter@halboutiekerr.com.br
-outro testeee;role na casa do feijudo;2025-06-10;20:10;luana;
-caza lagoa;Festa com DJ e musica animada;2025-06-08;22:00;walter;paulete@gmail.com
-role no paulete;oieee;2025-06-10;05:15;Paulete;luana.nobre.costa@gmail.com
