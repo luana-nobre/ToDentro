@@ -24,15 +24,20 @@ python --version
 
 ### 2. Instale o Flask (caso ainda não tenha)
 
-(terminal)
+terminal:
 pip install flask
 
-### 3. Rode a aplicação com:
+### 3. Instale o SQLAlchemy (caso ainda não tenha)
 
-(terminal)
-python main.py
+terminal:
+pip install SQLAlchemy
 
-### 4. Acesse no navegador:
+### 4. Rode a aplicação com:
+
+terminal:
+python -m app.main
+
+### 5. Acesse no navegador:
 
 (cole o link em uma página web)
 http://127.0.0.1:5000
