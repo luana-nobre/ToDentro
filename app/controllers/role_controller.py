@@ -6,8 +6,8 @@ from flask import (
     session,
     url_for
 )
-from app.entities.role import Role
-from app.interface_adapters.role_repository import RoleRepository
+from app.entities.role import RoleTeste
+from infra.repositories.role_repository import RoleRepository
 
 
 role_bp = Blueprint('role', __name__)
