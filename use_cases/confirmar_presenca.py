@@ -1,4 +1,4 @@
-from app.interface_adapters.role_repository import RoleRepository
+from infra.repositories.role_repository import RoleRepository
 
 
 class ConfirmarPresenca:

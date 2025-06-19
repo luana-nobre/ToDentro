@@ -1,4 +1,4 @@
-class Usuario:
+class UsuarioTeste:
     def __init__(self, nome, email, senha):
         self.nome = nome
         self.email = email
@@ -10,4 +10,4 @@ class Usuario:
     @staticmethod
     def from_line(line):
         nome, email, senha = line.strip().split(";")
-        return Usuario(nome, email, senha)
+        return UsuarioTeste(nome, email, senha)

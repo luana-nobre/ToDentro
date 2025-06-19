@@ -1,5 +1,5 @@
-from app.entities.usuario import Usuario
-from app.interface_adapters.usuario_repository import UsuarioRepository
+from domain.usuario import Usuario
+from infra.repositories.usuario_repository import UsuarioRepository
 
 
 class CadastrarUsuario:

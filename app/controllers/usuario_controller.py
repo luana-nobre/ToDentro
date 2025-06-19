@@ -1,13 +1,6 @@
-from flask import (
-    Blueprint,
-    render_template,
-    request,
-    redirect,
-    session,
-    url_for
-)
-from app.entities.usuario import Usuario
-from app.interface_adapters.usuario_repository import UsuarioRepository
+from flask import Blueprint, render_template, request, redirect, session, url_for
+from domain.usuario import UsuarioTeste
+from infra.repositories.usuario_repository import UsuarioRepository
 
 
 usuario_bp = Blueprint('usuario', __name__)
@@ -36,11 +29,8 @@ def cadastro():
         senha = request.form['senha']
         confirmar = request.form['confirmar']
         if senha != confirmar:
-            return render_template(
-                'cadastro.html',
-                erro="As senhas não coincidem"
-            )
-        novo_usuario = Usuario(nome, email, senha)
+            return render_template('cadastro.html', erro="As senhas não coincidem")
+        novo_usuario = UsuarioTeste(nome, email, senha)
         repo.salvar(novo_usuario)
         return redirect(url_for('usuario.login'))
     return render_template('cadastro.html')

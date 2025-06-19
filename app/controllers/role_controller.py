@@ -49,7 +49,7 @@ def criar_role():
         descricao = request.form['descricao']
         data = request.form['data']
         hora = request.form['hora']
-        novo = Role(titulo, descricao, data, hora, session['usuario'])
+        novo = RoleTeste(titulo, descricao, data, hora, session['usuario'])
         repo.salvar(novo)
         return redirect(url_for('role.home'))
     return render_template('criar_role.html')

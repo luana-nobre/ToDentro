@@ -1,13 +1,5 @@
-class Role:
-    def __init__(
-            self,
-            titulo,
-            descricao,
-            data,
-            hora,
-            criador,
-            participantes=None
-            ):
+class RoleTeste:
+    def __init__(self, titulo, descricao, data, hora, criador, participantes=None):
         self.titulo = titulo
         self.descricao = descricao
         self.data = data
@@ -26,4 +18,4 @@ class Role:
     def from_line(line):
         titulo, desc, data, hora, criador, part_str = line.strip().split(";")
         participantes = part_str.split(",") if part_str else []
-        return Role(titulo, desc, data, hora, criador, participantes)
+        return RoleTeste(titulo, desc, data, hora, criador, participantes)
