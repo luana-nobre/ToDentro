@@ -1,113 +1,86 @@
-from flask import (
-    Blueprint,
-    render_template,
-    request,
-    redirect,
-    session,
-    url_for
-)
-from app.entities.role import RoleTeste
+from flask import Blueprint, render_template, request, redirect, session, url_for
+from use_cases.listar_roles import ListarRoles
+from use_cases.criar_role import CriarRole
+from use_cases.confirmar_presenca import ConfirmarPresenca
+from use_cases.editar_role import EditarRole
+from use_cases.apagar_role import ApagarRole
+from use_cases.buscar_role_para_edicao import BuscarRoleParaEdicao
 from infra.repositories.role_repository import RoleRepository
-
 
 role_bp = Blueprint('role', __name__)
 repo = RoleRepository()
-
 
 @role_bp.route('/home', methods=['GET'])
 def home():
     if 'usuario' not in session:
         return redirect(url_for('usuario.login'))
-    roles = list(reversed(repo.listar()))
-    filtro = request.args.get('filtro', 'todos')
-    email_usuario = session['email']
-    if filtro == 'meus':
-        roles = [
-            r for r in roles
-            if r.criador == session['usuario']
-            or email_usuario in r.participantes
-        ]
-    busca = request.args.get('busca', '').lower()
-    if busca:
-        roles = [
-            r for r in roles
-            if busca in r.titulo.lower()
-        ]
-    return render_template(
-        'home.html',
-        usuario=session['usuario'],
-        roles=roles
-    )
 
+    use_case = ListarRoles(repo)
+    filtro = request.args.get('filtro', 'todos')
+    busca = request.args.get('busca', '')
+    roles = use_case.execute(session['usuario'], session['email'], filtro, busca)
+
+    return render_template('home.html', usuario=session['usuario'], roles=roles)
 
 @role_bp.route('/criar-role', methods=['GET', 'POST'])
 def criar_role():
     if 'usuario' not in session:
         return redirect(url_for('usuario.login'))
-    if request.method == 'POST':
-        titulo = request.form['titulo']
-        descricao = request.form['descricao']
-        data = request.form['data']
-        hora = request.form['hora']
-        novo = RoleTeste(titulo, descricao, data, hora, session['usuario'])
-        repo.salvar(novo)
-        return redirect(url_for('role.home'))
-    return render_template('criar_role.html')
 
+    if request.method == 'POST':
+        use_case = CriarRole(repo)
+        use_case.execute(
+            request.form['titulo'],
+            request.form['descricao'],
+            request.form['data'],
+            request.form['hora'],
+            session['usuario']
+        )
+        return redirect(url_for('role.home'))
+
+    return render_template('criar_role.html')
 
 @role_bp.route('/confirmar/<titulo>', methods=['POST'])
 def confirmar(titulo):
     if 'usuario' not in session:
         return redirect(url_for('usuario.login'))
-    email_usuario = session['email']
-    roles = repo.listar()
-    for r in roles:
-        if r.titulo == titulo and email_usuario not in r.participantes:
-            r.participantes.append(email_usuario)
-            break
-    repo.salvar_todos(roles)
-    return redirect(url_for('role.home'))
 
+    use_case = ConfirmarPresenca(repo)
+    use_case.execute(titulo, session['email'])
+
+    return redirect(url_for('role.home'))
 
 @role_bp.route('/editar-role/<titulo>', methods=['GET', 'POST'])
 def editar_role(titulo):
     if 'usuario' not in session:
         return redirect(url_for('usuario.login'))
 
-    roles = repo.listar()
-    role = next((r for r in roles if r.titulo == titulo), None)
-
-    if not role or role.criador != session['usuario']:
-        return redirect(url_for('role.home'))
-
     if request.method == 'POST':
-        role.titulo = request.form['titulo']
-        role.descricao = request.form['descricao']
-        role.data = request.form['data']
-        role.hora = request.form['hora']
-        repo.salvar_todos(roles)
+        use_case = EditarRole(repo)
+        novos_dados = {
+            'titulo': request.form['titulo'],
+            'descricao': request.form['descricao'],
+            'data': request.form['data'],
+            'hora': request.form['hora']
+        }
+        role = use_case.execute(titulo, session['usuario'], novos_dados)
+        if role:
+            return redirect(url_for('role.home'))
         return redirect(url_for('role.home'))
 
-    return render_template(
-        'criar_role.html',
-        editar=True,
-        role=role
-    )
+    use_case = BuscarRoleParaEdicao(repo)
+    role = use_case.execute(titulo, session['usuario'])
+    if not role:
+        return redirect(url_for('role.home'))
 
+    return render_template('criar_role.html', editar=True, role=role)
 
 @role_bp.route('/apagar-role/<titulo>', methods=['POST'])
 def apagar_role(titulo):
     if 'usuario' not in session:
         return redirect(url_for('usuario.login'))
 
-    roles = repo.listar()
-    novas = [
-        r for r in roles
-        if not (
-            r.titulo == titulo and
-            r.criador == session['usuario']
-        )
-    ]
-    repo.salvar_todos(novas)
+    use_case = ApagarRole(repo)
+    use_case.execute(titulo, session['usuario'])
 
     return redirect(url_for('role.home'))

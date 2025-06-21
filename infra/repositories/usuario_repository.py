@@ -19,3 +19,5 @@ class UsuarioRepository:
                     .filter_by(email=email, senha=senha)\
                     .first()
             return UsuarioTeste(row.nome, row.email, row.senha) if row else None
+    
+    
