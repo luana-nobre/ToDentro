@@ -1,25 +1,20 @@
 import pytest
 from use_cases.cadastrar_usuario import CadastrarUsuario
-from domain.usuario import UsuarioTeste
+from unittest.mock import MagicMock
 
+def test_cadastrar_usuario_sucesso():
+    repo = MagicMock()
+    use_case = CadastrarUsuario(repo)
 
-class FakeRepo:
-    def __init__(self):
-        self.salvo = None
+    result = use_case.execute("João", "joao@email.com", "senha123", "senha123")
 
-    def salvar(self, usuario):
-        self.salvo = usuario
+    repo.salvar.assert_called_once()
+    assert result["nome"] == "João"
+    assert result["email"] == "joao@email.com"
 
+def test_cadastrar_usuario_senhas_diferentes():
+    repo = MagicMock()
+    use_case = CadastrarUsuario(repo)
 
-def test_cadastro_sucesso():
-    caso_uso = CadastrarUsuario()
-    caso_uso.repo = FakeRepo()
-    usuario = caso_uso.executar("João", "joao@email.com", "1234", "1234")
-    assert usuario.nome == "João"
-    assert caso_uso.repo.salvo.email == "joao@email.com"
-
-
-def test_cadastro_erro_confirmacao():
-    caso_uso = CadastrarUsuario()
-    with pytest.raises(ValueError):
-        caso_uso.executar("João", "joao@email.com", "1234", "diferente")
+    with pytest.raises(ValueError, match="As senhas não coincidem"):
+        use_case.execute("João", "joao@email.com", "senha123", "outra")

@@ -1,21 +1,14 @@
+import pytest
 from use_cases.confirmar_presenca import ConfirmarPresenca
-from domain.role import RoleTeste
+from unittest.mock import MagicMock
 
-class FakeRepo:
-    def __init__(self):
-        self.roles = [
-            RoleTeste("Festa", "desc", "data", "hora", "João", ["email1"])
-        ]
+def test_confirmar_presenca():
+    role = MagicMock(titulo="Evento", participantes=[])
+    repo = MagicMock()
+    repo.listar.return_value = [role]
+    use_case = ConfirmarPresenca(repo)
 
-    def listar(self):
-        return self.roles
+    use_case.execute("Evento", "usuario@email.com")
 
-    def salvar_todos(self, roles):
-        self.salvo = roles
-
-
-def test_confirmar_presenca_sucesso():
-    caso_uso = ConfirmarPresenca()
-    caso_uso.repo = FakeRepo()
-    caso_uso.executar("Festa", "email2")
-    assert "email2" in caso_uso.repo.salvo[0].participantes
+    assert "usuario@email.com" in role.participantes
+    repo.salvar_todos.assert_called_once()

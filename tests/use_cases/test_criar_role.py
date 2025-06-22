@@ -1,19 +1,14 @@
+import pytest
 from use_cases.criar_role import CriarRole
-from domain.role import RoleTeste
+from unittest.mock import MagicMock
 
+def test_criar_role():
+    repo = MagicMock()
+    use_case = CriarRole(repo)
 
-class FakeRepo:
-    def __init__(self):
-        self.salvo = None
+    result = use_case.execute("Título", "Desc", "2025-01-01", "10:00", "criador@email.com")
 
-    def salvar(self, role):
-        self.salvo = role
-
-
-def test_criar_role_sucesso():
-    caso_uso = CriarRole()
-    caso_uso.repo = FakeRepo()
-    role = caso_uso.executar(
-        "Festa", "Na praia", "2025-07-10", "20:00", "João")
-    assert role.titulo == "Festa"
-    assert caso_uso.repo.salvo.descricao == "Na praia"
+    repo.salvar.assert_called_once()
+    assert result.titulo == "Título"
+    assert result.descricao == "Desc"
+    assert result.criador == "criador@email.com"

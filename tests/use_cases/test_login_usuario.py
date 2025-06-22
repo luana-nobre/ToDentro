@@ -1,25 +1,24 @@
 import pytest
 from use_cases.login_usuario import LoginUsuario
-from domain.usuario import UsuarioTeste
-
-
-class FakeRepo:
-    def buscar_por_email_senha(self, email, senha):
-        if email == "teste@exemplo.com" and senha == "senha123":
-            return UsuarioTeste("Teste", email, senha)
-        return None
-
+from unittest.mock import MagicMock
 
 def test_login_sucesso():
-    caso_uso = LoginUsuario()
-    caso_uso.repo = FakeRepo()
-    usuario = caso_uso.executar("teste@exemplo.com", "senha123")
-    assert usuario is not None
-    assert usuario.nome == "Teste"
+    repo = MagicMock()
+    repo.buscar_por_email_senha.return_value = MagicMock(nome="Teste", email="teste@email.com", senha="123")
+    use_case = LoginUsuario(repo)
 
+    result = use_case.execute("teste@email.com", "123")
+
+    repo.buscar_por_email_senha.assert_called_once_with("teste@email.com", "123")
+    assert result is not None
+    assert result.email == "teste@email.com"
 
 def test_login_falha():
-    caso_uso = LoginUsuario()
-    caso_uso.repo = FakeRepo()
-    usuario = caso_uso.executar("teste@exemplo.com", "errada")
-    assert usuario is None
+    repo = MagicMock()
+    repo.buscar_por_email_senha.return_value = None
+    use_case = LoginUsuario(repo)
+
+    result = use_case.execute("invalido@email.com", "senhaerrada")
+
+    repo.buscar_por_email_senha.assert_called_once_with("invalido@email.com", "senhaerrada")
+    assert result is None
