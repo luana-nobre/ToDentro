@@ -1,6 +1,6 @@
-import pytest
 from use_cases.confirmar_presenca import ConfirmarPresenca
 from unittest.mock import MagicMock
+
 
 def test_confirmar_presenca():
     role = MagicMock(titulo="Evento", participantes=[])

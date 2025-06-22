@@ -1,8 +1,6 @@
 from flask import Flask
 from app.controllers.usuario_controller import usuario_bp
 from app.controllers.role_controller import role_bp
-from infra.repositories.usuario_repository import UsuarioRepository
-from infra.repositories.role_repository import RoleRepository
 import os
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
@@ -18,7 +16,4 @@ if __name__ == '__main__':
 
     # ----- DEBUG: imprime estado atual do banco -----
     print("====== DEBUG DB ======")
-
-
-
     app.run(debug=True)

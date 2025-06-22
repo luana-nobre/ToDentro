@@ -1,5 +1,13 @@
 class RoleTeste:
-    def __init__(self, titulo, descricao, data, hora, criador, participantes=None):
+    def __init__(
+        self,
+        titulo,
+        descricao,
+        data,
+        hora,
+        criador,
+        participantes=None
+    ):
         self.titulo = titulo
         self.descricao = descricao
         self.data = data

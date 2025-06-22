@@ -1,10 +1,17 @@
-from flask import Blueprint, render_template, request, redirect, session, url_for
+from flask import (
+    Blueprint,
+    render_template,
+    request, redirect,
+    session,
+    url_for
+)
 from use_cases.login_usuario import LoginUsuario
 from use_cases.cadastrar_usuario import CadastrarUsuario
 from infra.repositories.usuario_repository import UsuarioRepository
 
 usuario_bp = Blueprint('usuario', __name__)
 repo = UsuarioRepository()
+
 
 @usuario_bp.route('/', methods=['GET', 'POST'])
 def login():
@@ -19,6 +26,7 @@ def login():
             return redirect(url_for('role.home'))
         return render_template('login.html', erro="Credenciais inválidas")
     return render_template('login.html')
+
 
 @usuario_bp.route('/cadastro', methods=['GET', 'POST'])
 def cadastro():

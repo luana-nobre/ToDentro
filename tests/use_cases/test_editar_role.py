@@ -1,6 +1,6 @@
-import pytest
 from use_cases.editar_role import EditarRole
 from unittest.mock import MagicMock
+
 
 def test_editar_role():
     role = MagicMock(titulo="Antigo", criador="criador@email.com")

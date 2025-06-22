@@ -2,6 +2,7 @@ import pytest
 from use_cases.cadastrar_usuario import CadastrarUsuario
 from unittest.mock import MagicMock
 
+
 def test_cadastrar_usuario_sucesso():
     repo = MagicMock()
     use_case = CadastrarUsuario(repo)
@@ -11,6 +12,7 @@ def test_cadastrar_usuario_sucesso():
     repo.salvar.assert_called_once()
     assert result["nome"] == "João"
     assert result["email"] == "joao@email.com"
+
 
 def test_cadastrar_usuario_senhas_diferentes():
     repo = MagicMock()

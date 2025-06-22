@@ -1,6 +1,6 @@
-import pytest
 from use_cases.buscar_role_para_edicao import BuscarRoleParaEdicao
 from unittest.mock import MagicMock
+
 
 def test_buscar_role_para_edicao_encontrada():
     role = MagicMock(titulo="Role A", criador="usuario@email.com")
@@ -11,6 +11,7 @@ def test_buscar_role_para_edicao_encontrada():
     result = use_case.execute("Role A", "usuario@email.com")
 
     assert result == role
+
 
 def test_buscar_role_para_edicao_nao_encontrada():
     repo = MagicMock()

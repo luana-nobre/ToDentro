@@ -5,6 +5,9 @@ class ApagarRole:
     def execute(self, titulo: str, usuario: str):
         roles = self.repo.listar()
         novas = [
-            r for r in roles if not (r.titulo == titulo and r.criador == usuario)
+            r for r in roles if not (
+                r.titulo == titulo and
+                r.criador == usuario
+            )
         ]
         self.repo.salvar_todos(novas)

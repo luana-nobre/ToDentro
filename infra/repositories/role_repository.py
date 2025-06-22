@@ -3,6 +3,7 @@ from typing import List
 from domain.role import RoleTeste
 from infra.db.database import get_session, Role
 
+
 class RoleRepository:
     ARQUIVO = None
 
