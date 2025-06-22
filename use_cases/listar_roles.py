@@ -1,27 +1,20 @@
-from infra.repositories.role_repository import RoleRepository
-
-
 class ListarRoles:
-    def __init__(self):
-        self.repo = RoleRepository()
+    def __init__(self, role_repository):
+        self.repo = role_repository
 
-    def executar(
-            self,
-            filtro='todos',
-            usuario_nome=None,
-            usuario_email=None,
-            busca=''
-            ):
-        roles = self.repo.listar()
+    def execute(self, usuario: str, email_usuario: str, filtro: str = 'todos', busca: str = ''):
+        roles = list(reversed(self.repo.listar()))
 
-        if filtro == 'meus' and usuario_nome and usuario_email:
+        if filtro == 'meus':
             roles = [
                 r for r in roles
-                if r.criador == usuario_nome
-                or usuario_email in r.participantes
+                if r.get('criador') == usuario or email_usuario in r.get('participantes', [])
             ]
 
         if busca:
-            roles = [r for r in roles if busca.lower() in r.titulo.lower()]
+            roles = [
+                r for r in roles
+                if busca.lower() in r.get('titulo', '').lower()
+            ]
 
         return roles

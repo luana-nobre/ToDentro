@@ -1,17 +1,11 @@
-from infra.repositories.role_repository import RoleRepository
-
-
 class ConfirmarPresenca:
-    def __init__(self):
-        self.repo = RoleRepository()
+    def __init__(self, role_repository):
+        self.repo = role_repository
 
-    def executar(self, titulo_role, email_usuario):
+    def execute(self, titulo: str, email_usuario: str):
         roles = self.repo.listar()
-        for role in roles:
-            if (
-                role.titulo == titulo_role and
-                email_usuario not in role.participantes
-            ):
-                role.participantes.append(email_usuario)
+        for r in roles:
+            if r.titulo == titulo and email_usuario not in r.participantes:
+                r.participantes.append(email_usuario)
                 break
         self.repo.salvar_todos(roles)

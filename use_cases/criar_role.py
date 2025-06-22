@@ -1,12 +1,10 @@
-from domain.role import Role
-from infra.repositories.role_repository import RoleRepository
-
+from domain.role import RoleTeste  # importa a entidade esperada pelo repositório
 
 class CriarRole:
-    def __init__(self):
-        self.repo = RoleRepository()
+    def __init__(self, role_repository):
+        self.repo = role_repository
 
-    def executar(self, titulo, descricao, data, hora, criador):
-        novo = Role(titulo, descricao, data, hora, criador)
-        self.repo.salvar(novo)
-        return novo
+    def execute(self, titulo: str, descricao: str, data: str, hora: str, criador: str):
+        role = RoleTeste(titulo, descricao, data, hora, criador, [])
+        self.repo.salvar(role)
+        return role
