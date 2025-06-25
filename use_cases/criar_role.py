@@ -1,19 +1,11 @@
 from domain.role import RoleTeste
-# importa a entidade esperada pelo repositório
-
+from domain.interfaces.role_repository_interface import RoleRepositoryInterface
 
 class CriarRole:
-    def __init__(self, role_repository):
-        self.repo = role_repository
+    def __init__(self, repo: RoleRepositoryInterface):
+        self.repo = repo
 
-    def execute(
-            self,
-            titulo: str,
-            descricao: str,
-            data: str,
-            hora: str,
-            criador: str
-    ):
+    def execute(self, titulo, descricao, data, hora, criador):
         role = RoleTeste(titulo, descricao, data, hora, criador, [])
         self.repo.salvar(role)
         return role

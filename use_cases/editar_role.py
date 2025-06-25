@@ -1,15 +1,19 @@
-class EditarRole:
-    def __init__(self, role_repository):
-        self.repo = role_repository
+from domain.interfaces.role_repository_interface import RoleRepositoryInterface
 
-    def execute(self, titulo: str, usuario: str, novos_dados: dict):
+
+class EditarRole:
+    def __init__(self, repo: RoleRepositoryInterface):
+        self.repo = repo
+
+    def execute(self, titulo_original, email_usuario, novos_dados):
         roles = self.repo.listar()
-        role = next((r for r in roles if r.titulo == titulo), None)
-        if not role or role.criador != usuario:
-            return None
-        role.titulo = novos_dados["titulo"]
-        role.descricao = novos_dados["descricao"]
-        role.data = novos_dados["data"]
-        role.hora = novos_dados["hora"]
-        self.repo.salvar_todos(roles)
-        return role
+        for role in roles:
+            if role.titulo == titulo_original and role.criador == email_usuario:
+                role.titulo = novos_dados["titulo"]
+                role.descricao = novos_dados["descricao"]
+                role.data = novos_dados["data"]
+                role.hora = novos_dados["hora"]
+                self.repo.salvar_todos(roles)
+                return role
+
+        return None

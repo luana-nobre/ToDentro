@@ -1,27 +1,16 @@
-class ListarRoles:
-    def __init__(self, role_repository):
-        self.repo = role_repository
+from domain.interfaces.role_repository_interface import RoleRepositoryInterface
 
-    def execute(
-            self,
-            usuario: str,
-            email_usuario: str,
-            filtro: str = 'todos',
-            busca: str = ''
-    ):
+class ListarRoles:
+    def __init__(self, repo: RoleRepositoryInterface):
+        self.repo = repo
+
+    def execute(self, usuario, email_usuario, filtro="todos", busca=""):
         roles = list(reversed(self.repo.listar()))
 
-        if filtro == 'meus':
-            roles = [
-                r for r in roles
-                if r.criador == usuario or
-                email_usuario in (r.participantes or [])
-            ]
+        if filtro == "meus":
+            roles = [r for r in roles if r.criador == usuario or email_usuario in r.participantes]
 
         if busca:
-            roles = [
-                r for r in roles
-                if busca.lower() in r.get('titulo', '').lower()
-            ]
+            roles = [r for r in roles if busca.lower() in r.titulo.lower()]
 
         return roles
