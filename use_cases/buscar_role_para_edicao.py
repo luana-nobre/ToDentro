@@ -1,5 +1,6 @@
 from domain.interfaces.role_repository_interface import RoleRepositoryInterface
 
+
 class BuscarRoleParaEdicao:
     def __init__(self, repo: RoleRepositoryInterface):
         self.repo = repo

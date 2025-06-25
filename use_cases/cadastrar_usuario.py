@@ -1,5 +1,8 @@
-from domain.interfaces.usuario_repository_interface import UsuarioRepositoryInterface
+from domain.interfaces.usuario_repository_interface import (
+    UsuarioRepositoryInterface
+)
 from domain.usuario import UsuarioTeste
+
 
 class CadastrarUsuario:
     def __init__(self, repo: UsuarioRepositoryInterface):

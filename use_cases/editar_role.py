@@ -8,7 +8,10 @@ class EditarRole:
     def execute(self, titulo_original, email_usuario, novos_dados):
         roles = self.repo.listar()
         for role in roles:
-            if role.titulo == titulo_original and role.criador == email_usuario:
+            if (
+                role.titulo == titulo_original and
+                role.criador == email_usuario
+            ):
                 role.titulo = novos_dados["titulo"]
                 role.descricao = novos_dados["descricao"]
                 role.data = novos_dados["data"]

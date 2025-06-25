@@ -15,7 +15,6 @@ def test_cadastrar_usuario_sucesso():
     assert result.nome == "João"           # <─ mudou aqui
 
 
-
 def test_cadastrar_usuario_senhas_diferentes():
     repo = MagicMock()
     use_case = CadastrarUsuario(repo)

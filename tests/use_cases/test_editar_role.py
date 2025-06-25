@@ -2,6 +2,7 @@ from use_cases.editar_role import EditarRole
 from unittest.mock import MagicMock
 from domain.role import RoleTeste
 
+
 def test_editar_role():
     role = RoleTeste(
         "Antigo", "Desc", "2025-01-01", "08:00",
