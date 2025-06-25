@@ -1,5 +1,6 @@
 from domain.interfaces.role_repository_interface import RoleRepositoryInterface
 
+
 class EditarRole:
     def __init__(self, repo: RoleRepositoryInterface):
         self.repo = repo
@@ -12,5 +13,7 @@ class EditarRole:
                 role.descricao = novos_dados["descricao"]
                 role.data = novos_dados["data"]
                 role.hora = novos_dados["hora"]
-                break
-        self.repo.salvar_todos(roles)
+                self.repo.salvar_todos(roles)
+                return role
+
+        return None
