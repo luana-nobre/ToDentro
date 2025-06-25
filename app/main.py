@@ -14,6 +14,4 @@ if __name__ == '__main__':
     # Criação de pasta templates (evita erro se não existir)
     os.makedirs('templates', exist_ok=True)
 
-    # ----- DEBUG: imprime estado atual do banco -----
-    print("====== DEBUG DB ======")
     app.run(debug=True)
