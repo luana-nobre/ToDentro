@@ -1,10 +1,12 @@
-class BuscarRoleParaEdicao:
-    def __init__(self, role_repository):
-        self.repo = role_repository
+from domain.interfaces.role_repository_interface import RoleRepositoryInterface
 
-    def execute(self, titulo: str, usuario: str):
+class BuscarRoleParaEdicao:
+    def __init__(self, repo: RoleRepositoryInterface):
+        self.repo = repo
+
+    def execute(self, titulo, criador):
         roles = self.repo.listar()
-        role = next((r for r in roles if r.titulo == titulo), None)
-        if not role or role.criador != usuario:
-            return None
-        return role
+        for role in roles:
+            if role.titulo == titulo and role.criador == criador:
+                return role
+        return None
