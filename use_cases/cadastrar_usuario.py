@@ -1,16 +1,14 @@
-class CadastrarUsuario:
-    def __init__(self, usuario_repository):
-        self.repo = usuario_repository
+from domain.interfaces.usuario_repository_interface import UsuarioRepositoryInterface
+from domain.usuario import UsuarioTeste
 
-    def execute(self, nome: str, email: str, senha: str, confirmar: str):
+class CadastrarUsuario:
+    def __init__(self, repo: UsuarioRepositoryInterface):
+        self.repo = repo
+
+    def execute(self, nome, email, senha, confirmar):
         if senha != confirmar:
             raise ValueError("As senhas não coincidem")
 
-        usuario = {
-            "nome": nome,
-            "email": email,
-            "senha": senha
-        }
-
+        usuario = UsuarioTeste(nome, email, senha)
         self.repo.salvar(usuario)
         return usuario

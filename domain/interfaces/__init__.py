@@ -1,0 +1,3 @@
+
+from .role_repository_interface import RoleRepositoryInterface
+from .usuario_repository_interface import UsuarioRepositoryInterface
