@@ -14,8 +14,8 @@ class ListarRoles:
         if filtro == 'meus':
             roles = [
                 r for r in roles
-                if r.get('criador') == usuario or
-                email_usuario in r.get('participantes', [])
+                if r.criador == usuario or
+                email_usuario in (r.participantes or [])
             ]
 
         if busca:
